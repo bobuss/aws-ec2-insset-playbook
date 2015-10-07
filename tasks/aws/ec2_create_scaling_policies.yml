@@ -1,0 +1,29 @@
+- name: Creating scaling-up policy
+  local_action:
+    module: ec2_scaling_policy
+    state: present
+    name: bastien-scaleup-policy
+    region: "{{ aws_region }}"
+    adjustment_type: ChangeInCapacity
+    asg_name: bastien-auto-scaling
+    scaling_adjustment: 50
+    cooldown: 300
+  register: scale_up_output
+
+- set_fact:
+    scaling_policies.up: "{{ scale_up_output.stdout }}"
+
+- name: Creating scaling-down policy
+  local_action:
+    module: ec2_scaling_policy
+    state: present
+    name: bastien-scaledown-policy
+    region: "{{ aws_region }}"
+    adjustment_type: ChangeInCapacity
+    asg_name: bastien-auto-scaling
+    scaling_adjustment: -1
+    cooldown: 300
+  register: scale_down_output
+
+- set_fact:
+    scaling_policies.down: "{{ scale_down_output.stdout }}"

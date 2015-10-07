@@ -1,0 +1,16 @@
+- name: Load-balancing our instances
+  local_action:
+    module: ec2_elb_lb
+    name: bastien-load-balancer
+    region: "{{aws_region}}"
+    scheme: internal
+    state: present
+    subnets:
+      - subnet-d9bd4f80
+      - subnet-3f0e1c17
+      - subnet-e9e183d3
+      - subnet-19c2126e
+    listeners:
+      - protocol: http
+        load_balancer_port: 80
+        instance_port: 80

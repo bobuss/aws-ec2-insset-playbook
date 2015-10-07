@@ -1,0 +1,11 @@
+- name: Install apache2
+  apt: name=apache2 state=present
+
+- name: Removing default HTML landing page
+  file: name=/var/www/html/index.html state=absent
+
+- name: Touching new page
+  file: path=/var/www/html/index.html state=touch owner=root group=root
+
+- name: Adding demo HTML page
+  lineinfile: dest=/var/www/html/index.html line="Welcome to aws"

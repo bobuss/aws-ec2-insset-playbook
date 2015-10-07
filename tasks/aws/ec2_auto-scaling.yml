@@ -1,0 +1,22 @@
+- name: Creating our auto-scaling config
+  local_action:
+    module: ec2_lc
+    name: bastien-scaling-config
+    region: "{{aws_region}}"
+    image_id: "{{ami_id}}"
+    security_groups: "{{ security_group }}"
+    instance_type: "{{ instance_type }}"
+
+
+- name: Auto-scaling our instances
+  local_action:
+    module: ec2_asg
+    name: bastien-auto-scaling
+    region: "{{aws_region}}"
+    launch_config_name: bastien-scaling-config
+    load_balancers: ['bastien-load-balancer']
+    health_check_period: 300
+    health_check_type: EC2
+    min_size: 2
+    max_size: 12
+    desired_capacity: 2

@@ -1,0 +1,11 @@
+- name: Launch instances
+  local_action:
+    module: ec2
+    region: "{{aws_region}}"
+    keypair: "{{key_name}}"
+    group: "{{ security_group }}"
+    instance_type: "{{ instance_type }}"
+    image: "{{ami_id}}"
+    count: 2
+    wait: yes
+  register: ec2

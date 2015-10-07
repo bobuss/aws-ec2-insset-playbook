@@ -1,0 +1,53 @@
+- name: Creating CPU Alarm (high)
+  local_action:
+    module: ec2_metric_alarm
+    state: present
+    name: "bastien-alarm-cpu-high"
+    region: "{{ aws_region }}"
+    metric: "CPUUtilization"
+    namespace: "AWS/EC2"
+    statistic: Average
+    comparison: ">"
+    dimensions: { 'AutoScalingGroupName': 'bastien-auto-scaling' }
+    threshold: 70.0
+    period: 60
+    evaluation_periods: 2
+    unit: "Percent"
+    alarm_actions: ec2.scaling-policies.up.arn
+
+- name: Creating CPU Alarm (low)
+  local_action:
+    module: ec2_metric_alarm
+    state: present
+    name: "bastien-alarm-cpu-high"
+    region: "{{ aws_region }}"
+    metric: "CPUUtilization"
+    namespace: "AWS/EC2"
+    statistic: Average
+    comparison: "<"
+    dimensions: { 'AutoScalingGroupName': 'bastien-auto-scaling' }
+    threshold: 36.0
+    period: 60
+    evaluation_periods: 2
+    unit: "Percent"
+    alarm_actions: "{{ item.arn }}"
+  with_items: scaling_policies.up
+
+- name: Creating Latency Alarm (high)
+  local_action:
+    module: ec2_metric_alarm
+    state: present
+    name: "bastien-alarm-cpu-high"
+    region: "{{ aws_region }}"  
+    metric: "CPUUtilization"
+    namespace: "AWS/ELB"
+    statistic: Latency
+    comparison: ">"
+    dimensions: { 'AutoScalingGroupName': 'bastien-auto-scaling' }
+    threshold: 30.0
+    period: 60
+    evaluation_periods: 1
+    unit: "Percent"
+    alarm_actions: "{{ item.arn }}"
+  with_items: scaling_policies.down
+

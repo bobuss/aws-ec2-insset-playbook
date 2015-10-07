@@ -17,4 +17,4 @@ What it does:
 * Create an ELB and attach both instances to instances
 * Create an AutoScaling configuration and AutoScaling group for the ELB
 * Create some AutoScaling policies
-* Create some AutoScaling alarms
+* Create some AutoScaling alarms (*unfinished*)

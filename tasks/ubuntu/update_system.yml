@@ -1,0 +1,2 @@
+- name: Upgrading system
+  apt: upgrade=dist

@@ -1,0 +1,5 @@
+key_name: BastienThinkpad
+aws_region: us-east-1
+ami_id: ami-e7de9b82
+instance_type: t2.micro
+security_group: bastien-demo-group
