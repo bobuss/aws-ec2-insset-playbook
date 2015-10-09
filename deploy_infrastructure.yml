@@ -3,16 +3,16 @@
   connection: local
   gather_facts: False
   tasks:
-  - include: tasks/aws/ec2_create_security_group.yml
-  - include: tasks/aws/ec2_launch_instances.yml
-  - include: tasks/aws/ec2_add_instances_to_host_group.yml
-  - include: tasks/aws/ec2_tag_instances.yml
-  - include: tasks/aws/ec2_wait_for_instances.yml
+  - include: tasks/aws/ec2/security_group.yml
+  - include: tasks/aws/ec2/launch_instances.yml
+  - include: tasks/aws/ec2/instances_to_host_group.yml
+  - include: tasks/aws/ec2/tag_instances.yml
+  - include: tasks/aws/ec2/wait_for_instances.yml
 
 - name: Preparing our instances
   hosts: aws-ec2
   sudo: True
-  gather_facts: True
+  gather_facts: False
   tasks:
   - include: tasks/ubuntu/update_system.yml
   - include: tasks/apache2/apache2.yml
@@ -24,7 +24,9 @@
   connection: local
   gather_facts: False
   tasks:    
-  - include: tasks/aws/ec2_load-balancing.yml
-  - include: tasks/aws/ec2_auto-scaling.yml
-  - include: tasks/aws/ec2_create_scaling_policies.yml
-  - include: tasks/aws/ec2_create_scaling_alarms.yml
+  - include: tasks/aws/ec2/load-balancing.yml
+  - include: tasks/aws/ec2/load-balancing-attach-instances.yml
+  - include: tasks/aws/ec2/auto-scaling_config.yml
+  - include: tasks/aws/ec2/auto-scaling_group.yml
+  - include: tasks/aws/ec2/auto-scaling_policies.yml
+  - include: tasks/aws/ec2/auto-scaling_alarms.yml

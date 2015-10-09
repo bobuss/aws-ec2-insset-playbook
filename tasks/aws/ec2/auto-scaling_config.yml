@@ -1,0 +1,8 @@
+- name: Creating our auto-scaling config
+  local_action:
+    module: ec2_lc
+    name: bastien-scaling-config
+    region: "{{aws_region}}"
+    image_id: "{{ami_id}}"
+    security_groups: "{{ security_group }}"
+    instance_type: "{{ instance_type }}"

@@ -8,4 +8,4 @@
   file: path=/var/www/html/index.html state=touch owner=root group=root
 
 - name: Adding demo HTML page
-  lineinfile: dest=/var/www/html/index.html line="Welcome to {{ inventory_hostname }}"
+  lineinfile: dest=/var/www/html/index.html line="Welcome to <strong>{{ inventory_hostname }}</strong>"
