@@ -14,7 +14,7 @@
     name: bastien-auto-scaling
     region: "{{aws_region}}"
     launch_config_name: bastien-scaling-config
-    load_balancers: ['bastien-load-balancer']
+    load_balancers: bastien-load-balancer
     health_check_period: 300
     health_check_type: EC2
     min_size: 2

@@ -18,3 +18,4 @@
         from_port: 80
         to_port: 80
         cidr_ip: 0.0.0.0/0
+  register: ec2_security_group

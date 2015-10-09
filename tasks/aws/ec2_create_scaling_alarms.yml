@@ -13,7 +13,7 @@
     period: 60
     evaluation_periods: 2
     unit: "Percent"
-    alarm_actions: ec2.scaling-policies.up.arn
+    alarm_actions: "{{ scale_up_output.arn }}"
 
 - name: Creating CPU Alarm (low)
   local_action:
@@ -30,8 +30,7 @@
     period: 60
     evaluation_periods: 2
     unit: "Percent"
-    alarm_actions: "{{ item.arn }}"
-  with_items: scaling_policies.up
+    alarm_actions: "{{ scale_down_output.arn }}"
 
 - name: Creating Latency Alarm (high)
   local_action:
@@ -41,13 +40,12 @@
     region: "{{ aws_region }}"  
     metric: "CPUUtilization"
     namespace: "AWS/ELB"
-    statistic: Latency
+    statistic: Average
     comparison: ">"
     dimensions: { 'AutoScalingGroupName': 'bastien-auto-scaling' }
     threshold: 30.0
     period: 60
     evaluation_periods: 1
     unit: "Percent"
-    alarm_actions: "{{ item.arn }}"
-  with_items: scaling_policies.down
+    alarm_actions: "{{ scale_up_output.arn }}"
 

@@ -17,7 +17,7 @@
   - include: tasks/ubuntu/update_system.yml
   - include: tasks/apache2/apache2.yml
   - name: Wait for Apache to listen to ::80
-    wait_for: port=80 delay=60 timeout=120 state=started
+    wait_for: port=80 delay=60 timeout=90 state=started
 
 - name: Preparing our infrastructure
   hosts: 127.0.0.1

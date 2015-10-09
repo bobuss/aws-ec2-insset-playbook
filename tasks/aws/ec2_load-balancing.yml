@@ -1,9 +1,10 @@
-- name: Load-balancing our instances
+- name: Creating our load-balancer
   local_action:
     module: ec2_elb_lb
     name: bastien-load-balancer
     region: "{{aws_region}}"
-    scheme: internal
+    scheme: internet-facing    
+    security_group_ids: "{{ ec2_security_group.group_id }}"
     state: present
     subnets:
       - subnet-d9bd4f80
@@ -14,3 +15,12 @@
       - protocol: http
         load_balancer_port: 80
         instance_port: 80
+
+- name: Attaching our instances to it
+  local_action:
+    module: ec2_elb
+    instance_id: "{{ item.id }}"
+    region: "{{ aws_region }}"
+    ec2_elbs: "bastien-load-balancer"
+    state: 'present'
+  with_items: ec2.instances
